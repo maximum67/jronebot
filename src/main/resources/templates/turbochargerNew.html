@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title th:text="${title}">title</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="container">
+    <header class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
+            <li class="nav-item"><a href="/turbocharger/list" class="nav-link">Список турбин</a></li>
+            <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Добавить новую</a></li>
+            <li class="nav-item"><a href="/parserSetting/edit" class="nav-link">Загрузить из файла</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Пользователи</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Выход</a></li>
+        </ul>
+    </header>
+</div><hr>
+
+<main>
+    <h2>Спецификация турбины</h2>
+    <div class="mycol">
+        <form class="form-control-sm" th:action="@{/turbocharger/new}" th:method="post" th:object="${turbocharger}">
+            <th class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <label for="jroneNo" class="form-label"><b>Jrone NO</b></label>
+                            <input class="form-control" type="text" id="jroneNo" name="jroneNo"
+                                   th:value="${turbocharger.jroneNo}"/><br>
+                        </td>
+                        <td>
+                            <label for="turboMaker" class="form-label"><b>Turbo Maker</b></label>
+                            <input class="form-control" type="text" id="turboMaker" name="turboMaker"
+                                   th:value="${turbocharger.turboMaker}"/><br>
+                        </td>
+                        <td>
+                            <label for="turboModel" class="form-label"><b>Turbo Model</b></label>
+                            <input class="form-control" type="text" id="turboModel" name="turboModel"
+                                   th:value="${turbocharger.turboModel}"/><br>
+                        </td>
+                        <td>
+                            <label for="turboOeNo" class="form-label"><b>Turbo OE NO</b></label>
+                            <input class="form-control" type="text" id="turboOeNo" name="turboOeNo"
+                                   th:value="${turbocharger.turboOeNo}"/><br>
+                        </td>
+                        <td>
+                            <label for="vehicleOeNo" class="form-label"><b>Vehicle OE NO</b></label>
+                            <input class="form-control" type="text" id="vehicleOeNo" name="vehicleOeNo"
+                                   th:value="${turbocharger.vehicleOeNo}"/><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="brand" class="form-label"><b>Brand</b></label>
+                            <input class="form-control" type="text" id="brand" name="brand"
+                                   th:value="${turbocharger.brand}"/><br>
+                        </td>
+                        <td>
+                            <label for="makerModel" class="form-label"><b>Maker Model</b></label>
+                            <input class="form-control" type="text" id="makerModel" name="makerModel"
+                                   th:value="${turbocharger.makerModel}"/><br>
+                        </td>
+                        <td>
+                            <label for="engine" class="form-label"><b>Engine</b></label>
+                            <input class="form-control" type="text" id="engine" name="engine"
+                                   th:value="${turbocharger.engine}"/><br>
+                        </td>
+                        <td>
+                            <label for="year" class="form-label"><b>Year</b></label>
+                            <input class="form-control" type="text" id="year" name="year"
+                                   th:value="${turbocharger.year}"/><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="chra" class="form-label"><b>CHRA</b></label>
+                            <input class="form-control" type="text" id="chra" name="chra"
+                                   th:value="${turbocharger.chra}"/><br>
+                        </td>
+                        <td>
+                            <label for="shaftAndWheels" class="form-label"><b>Shaft and Wheels</b></label>
+                            <input class="form-control" type="text" id="shaftAndWheels" name="shaftAndWheels"
+                                   th:value="${turbocharger.shaftAndWheels}"/><br>
+                        </td>
+                        <td>
+                            <label for="compressorWheels" class="form-label"><b>Compressor Wheels</b></label>
+                            <input class="form-control" type="text" id="compressorWheels" name="compressorWheels"
+                                   th:value="${turbocharger.compressorWheels}"/><br>
+                        </td>
+                        <td>
+                            <label for="sealPlates" class="form-label"><b>Seal Plates</b></label>
+                            <input class="form-control" type="text" id="sealPlates" name="sealPlates"
+                                   th:value="${turbocharger.sealPlates}"/><br>
+                        </td>
+                        <td>
+                            <label for="thrustCollarKits" class="form-label"><b>Thrust Collar Kits</b></label>
+                            <input class="form-control" type="text" id="thrustCollarKits" name="thrustCollarKits"
+                                   th:value="${turbocharger.thrustCollarKits}"/><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="thrustBearings" class="form-label"><b>Thrust Bearings</b></label>
+                            <input class="form-control" type="text" id="thrustBearings" name="thrustBearings"
+                                   th:value="${turbocharger.thrustBearings}"/><br>
+                        </td>
+                        <td>
+                            <label for="journalAndBallBearings" class="form-label"><b>Journal And Ball Bearings</b></label>
+                            <input class="form-control" type="text" id="journalAndBallBearings" name="journalAndBallBearings"
+                                   th:value="${turbocharger.journalAndBallBearings}"/><br>
+                        </td>
+                        <td>
+                            <label for="bearingHousings" class="form-label"><b>Bearing Housings</b></label>
+                            <input class="form-control" type="text" id="bearingHousings" name="bearingHousings"
+                                   th:value="${turbocharger.bearingHousings}"/><br>
+                        </td>
+                        <td>
+                            <label for="heatShields" class="form-label"><b>Heat Shields</b></label>
+                            <input class="form-control" type="text" id="heatShields" name="heatShields"
+                                   th:value="${turbocharger.heatShields}"/><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="actuatorAssy" class="form-label"><b>Actuator Assy</b></label>
+                            <input class="form-control" type="text" id="actuatorAssy" name="actuatorAssy"
+                                   th:value="${turbocharger.actuatorAssy}"/><br>
+                        </td>
+                        <td>
+                            <label for="gasketKits" class="form-label"><b>Gasket Kits</b></label>
+                            <input class="form-control" type="text" id="gasketKits" name="gasketKits"
+                                   th:value="${turbocharger.gasketKits}"/><br>
+                        </td>
+                        <td>
+                            <label for="nozzleRingAssy" class="form-label"><b>Nozzle Ring Assy</b></label>
+                            <input class="form-control" type="text" id="nozzleRingAssy" name="nozzleRingAssy"
+                                   th:value="${turbocharger.nozzleRingAssy}"/><br>
+                        </td>
+                        <td>
+                            <label for="serviceKits" class="form-label"><b>Service Kits</b></label>
+                            <input class="form-control" type="text" id="serviceKits" name="serviceKits"
+                                   th:value="${turbocharger.serviceKits}"/><br>
+                        </td>
+                    </tr><br>
+                    </tbody>
+                </table>
+            </th>
+            <button class="btn btn-primary d-inline-flex align-items-center" type="submit">Сохранить
+                спецификацию
+            </button>
+            <br>
+        </form>
+    </div>
+</main>
+
+</body>
+</html>

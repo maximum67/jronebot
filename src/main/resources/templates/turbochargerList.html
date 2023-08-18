@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title th:text="${title}">title</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="container">
+    <header class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="/" class="nav-link" >Главная</a></li>
+            <li class="nav-item"><a href="/turbocharger/list" class="nav-link active" aria-current="page">Список турбин</a></li>
+            <li class="nav-item"><a href="/turbocharger/new" class="nav-link">Добавить новую</a></li>
+            <li class="nav-item"><a href="/parserSetting/edit" class="nav-link">Загрузить из файла</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Пользователи</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Выход</a></li>
+        </ul>
+    </header>
+</div><hr>
+<h2>Список турбин</h2>
+<div class="table-responsive">
+    <table class="table table-striped table-sm" id="tableParam">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Редактирование</th>
+            <th scope="col">Jrone NO</th>
+            <th scope="col">Turbo Maker</th>
+            <th scope="col">Turbo Model</th>
+            <th scope="col">Turbo OE NO</th>
+            <th scope="col">Vehicle OE NO</th>
+            <th scope="col">Brand</th>
+            <th scope="col">Maker Model</th>
+            <th scope="col">Engine</th>
+            <th scope="col">Year</th>
+        </tr>
+        </thead><hr>
+        <tbody>
+        <tr th:each="turbocharger:${turbochargerList}">
+            <td th:text="${turbocharger.id}">id</td>
+            <td><a th:href="'/turbocharger/edit/'+${turbocharger.id}">Редактировать</a></td>
+            <td th:text="${turbocharger.jroneNo}">id</td>
+            <td th:text="${turbocharger.turboMaker}">id</td>
+            <td th:text="${turbocharger.turboModel}">id</td>
+            <td th:text="${turbocharger.turboOeNo}">id</td>
+            <td th:text="${turbocharger.vehicleOeNo}">id</td>
+            <td th:text="${turbocharger.brand}">id</td>
+            <td th:text="${turbocharger.makerModel}">id</td>
+            <td th:text="${turbocharger.engine}">id</td>
+            <td th:text="${turbocharger.year}">id</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
