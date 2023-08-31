@@ -1,6 +1,7 @@
 package com.example.jeronbot.services;
 
 import com.example.jeronbot.models.ParserSetting;
+import com.example.jeronbot.models.Turbocharger;
 import com.example.jeronbot.repositories.ParserSettingRepository;
 import com.example.jeronbot.storage.StorageProperties;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +24,7 @@ public class ParserSettingService {
 
     private final ParserSettingRepository parserSettingRepository;
 
-    public void parsing (ParserSetting parserSetting) throws IOException {
+    public List<Turbocharger> parsing (ParserSetting parserSetting) throws IOException {
 
         Map<String, Long> parsingMap = new LinkedHashMap<>();
         parsingMap.put("JroneNo", parserSetting.getJroneNo());
@@ -43,6 +41,7 @@ public class ParserSettingService {
         parsingMap.put("CompressorWheels", parserSetting.getCompressorWheels());
         parsingMap.put("SealPlates", parserSetting.getSealPlates());
         parsingMap.put("ThrustCollarKits", parserSetting.getThrustCollarKits());
+        parsingMap.put("ThrustBearings", parserSetting.getThrustBearings());
         parsingMap.put("JournalAndBallBearings", parserSetting.getJournalAndBallBearings());
         parsingMap.put("BearingHousings", parserSetting.getBearingHousings());
         parsingMap.put("HeatShields", parserSetting.getHeatShields());
@@ -51,22 +50,71 @@ public class ParserSettingService {
         parsingMap.put("NozzleRingAssy", parserSetting.getNozzleRingAssy());
         parsingMap.put("ServiceKits", parserSetting.getServiceKits());
 
+
+        List<Turbocharger> turbochargerList = new ArrayList<>();
             ParsingFile parsingFile = new ParsingFile();
             Map<Integer, List<Object>> map = parsingFile.read(getFile().toString());
         for (int i = 0; i < map.size(); i++) {
+            Turbocharger turbocharger = new Turbocharger();
              for ( Map.Entry<String, Long> el : parsingMap.entrySet()){
-                System.out.println( el.getKey()+" - "+map.get(i).get(Math.toIntExact(el.getValue())) + " !!! ");
+//                System.out.println( el.getKey()+" - "+map.get(i).get(Math.toIntExact(el.getValue())) + " !!! ");
+                switch (el.getKey()){
+                    case "JroneNo": turbocharger.setJroneNo((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "TurboMarker": turbocharger.setTurboMaker((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "TurboModel": turbocharger.setTurboModel((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "TurboOeNo": turbocharger.setTurboOeNo((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "VehicleOeNo": turbocharger.setVehicleOeNo((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "Brand": turbocharger.setBrand((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "MakerModel": turbocharger.setMakerModel((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "Engine": turbocharger.setEngine((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "Year": turbocharger.setYear((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "Chra": turbocharger.setChra((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "ShaftAndWheels": turbocharger.setShaftAndWheels((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "CompressorWheels": turbocharger.setCompressorWheels((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "SealPlates": turbocharger.setSealPlates((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "ThrustCollarKits": turbocharger.setThrustCollarKits((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "ThrustBearings": turbocharger.setThrustBearings((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "JournalAndBallBearings": turbocharger.setJournalAndBallBearings((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "BearingHousings": turbocharger.setBearingHousings((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "HeatShields": turbocharger.setHeatShields((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "ActuatorAssy": turbocharger.setActuatorAssy((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "GasketKits": turbocharger.setGasketKits((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "NozzleRingAssy": turbocharger.setNozzleRingAssy((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                    case "ServiceKits": turbocharger.setServiceKits((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                        break;
+                }
             }
-            System.out.println("_____________________________________");
-            System.out.println();
-        }
-//            for (int i = 0; i < map.size(); i++) {
-//                for (int j = 0; j < map.get(i).size(); j++) {
-//                    System.out.print(map.get(i).get(j) + "  ");
-//                }
-//                System.out.println();
-//            }
 
+//            System.out.println("_____________________________________");
+//            System.out.println(turbocharger.getJroneNo());
+//            System.out.println("_____________________________________");
+            turbochargerList.add(turbocharger);
+        }
+//        for (Turbocharger t: turbochargerList) {
+//            System.out.println(t.getJroneNo());
+//        }
+        return turbochargerList;
     }
 
     public List<ParserSetting> list(){
@@ -119,6 +167,7 @@ public class ParserSettingService {
     public void deleteParserSetting(Long id){
         parserSettingRepository.deleteById(id);
     }
+
     public ParserSetting getSettingById(Long id){
        return parserSettingRepository.getReferenceById(id);
     }

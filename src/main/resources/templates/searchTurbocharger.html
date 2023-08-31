@@ -1,0 +1,64 @@
+<!doctype html>
+
+<html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>index</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="container">
+    <header class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
+            <li class="nav-item"><a href="/turbocharger/list" class="nav-link">Список турбин</a></li>
+            <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Поиск</a></li>
+            <li class="nav-item"><a href="/turbocharger/new" class="nav-link">Добавить новую</a></li>
+            <li class="nav-item"><a href="/parserSetting/edit" class="nav-link">Загрузить из файла</a></li>
+            <li class="nav-item"><a href="/bot/botSetting" class="nav-link">Настройки бота</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Пользователи</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Выход</a></li>
+        </ul>
+    </header>
+</div><hr>
+
+<h2>Страница поиска</h2>
+<div>
+    <form class="form-control-sm" action="/turbocharger/search" method="post" th:object="${turbocharger}">
+        <label for="turboOeNo" class="form-label"><b>Turbo OE NO</b></label>
+        <input class="form-control" type="text" id="turboOeNo" name="turboOeNo"
+               th:value="${turboOeNo}" /><br>
+        <button class="btn btn-primary d-inline-flex align-items-center" type="submit">Поиск
+        </button>
+    </form>
+</div>
+<div th:each="turbocharger:${turbochargerList}">
+    <ul>
+        <li>
+            <p th:text="${turbocharger.jroneNo}+'    '+${turbocharger.turboMaker}+'    '+${turbocharger.turboModel}+
+                       '    '+${turbocharger.turboOeNo}+'    '+${turbocharger.vehicleOeNo}+'    '+${turbocharger.brand}+
+                       '    '+${turbocharger.makerModel}+'    '+${turbocharger.engine}+'    '+${turbocharger.year}">id</p>
+            <p th:text="${turbocharger.chra}">id</p>
+            <p th:text="${turbocharger.shaftAndWheels}">id</p>
+            <p th:text="${turbocharger.compressorWheels}">id</p>
+            <p th:text="${turbocharger.sealPlates}">id</p>
+            <p th:text="${turbocharger.thrustCollarKits}">id</p>
+            <p th:text="${turbocharger.thrustBearings}">id</p>
+            <p th:text="${turbocharger.journalAndBallBearings}">id</p>
+            <p th:text="${turbocharger.bearingHousings}">id</p>
+            <p th:text="${turbocharger.heatShields}">id</p>
+            <p th:text="${turbocharger.actuatorAssy}">id</p>
+            <p th:text="${turbocharger.gasketKits}">id</p>
+            <p th:text="${turbocharger.nozzleRingAssy}">id</p>
+            <p th:text="${turbocharger.serviceKits}">id</p>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

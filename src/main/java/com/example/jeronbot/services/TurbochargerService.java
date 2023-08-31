@@ -3,9 +3,13 @@ package com.example.jeronbot.services;
 import com.example.jeronbot.models.Turbocharger;
 import com.example.jeronbot.repositories.TurbochargerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +23,22 @@ public class TurbochargerService {
             return null;
         }else {
             return turbochargerRepository.findAll();
+        }
+    }
+
+    public void updateTurbochargerList (List<Turbocharger> list) {
+        List<Turbocharger> turbochargerRepositoryAll = turbochargerRepository.findAll();
+        boolean contains = false;
+        for (Turbocharger turbocharger: list) {
+            for(Turbocharger turbochargerRepos : turbochargerRepositoryAll) {
+                if (turbocharger.getTurboOeNo().equals(turbochargerRepos.getTurboOeNo())) {
+                    updateTurbochargerById(turbochargerRepos.getId(), turbocharger);
+                    contains = true;
+                    break;
+                }
+            }
+              if (!contains)  updateTurbocharger(turbocharger);
+              contains = false;
         }
     }
 
@@ -56,5 +76,17 @@ public class TurbochargerService {
 
     public void deleteTurbocharger(Long id){
         turbochargerRepository.deleteById(id);
+    }
+
+
+    public List<Turbocharger> getTurbochargerByOeNo(String turboOeNo) {
+        List<Turbocharger> turbochargerList = turbochargerRepository.findAll();
+        List<Turbocharger> list = new ArrayList<>();
+        for (Turbocharger turbocharger : turbochargerList) {
+            if (turbocharger.getTurboOeNo().startsWith(turboOeNo)) {
+                list.add(turbocharger);
+            }
+        }
+        return list;
     }
 }

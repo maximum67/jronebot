@@ -4,6 +4,7 @@ import com.example.jeronbot.models.ParserSetting;
 import com.example.jeronbot.services.ParserSettingService;
 
 import com.example.jeronbot.services.StorageService;
+import com.example.jeronbot.services.TurbochargerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ public class ParserController {
 
     private final ParserSettingService parserSettingService;
     private final StorageService storageService;
+    private  final TurbochargerService turbochargerService;
 
     @GetMapping("/edit")
     public String getParerSetting(Model model){
@@ -49,7 +51,7 @@ public class ParserController {
 
     @PostMapping("/parsing/{id}")
     public String parsing(@PathVariable("id") Long id) throws IOException {
-        parserSettingService.parsing(parserSettingService.getSettingById(id));
+        turbochargerService.updateTurbochargerList(parserSettingService.parsing(parserSettingService.getSettingById(id)));
         return "redirect:/parserSetting/edit";
     }
 }

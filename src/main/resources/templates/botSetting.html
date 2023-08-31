@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title th:text="${title}">title</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="container">
+    <header class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
+            <li class="nav-item"><a href="/turbocharger/list" class="nav-link">Список турбин</a></li>
+            <li class="nav-item"><a href="/turbocharger/search" class="nav-link">Поиск</a></li>
+            <li class="nav-item"><a href="/turbocharger/new" class="nav-link">Добавить новую</a></li>
+            <li class="nav-item"><a href="/parserSetting/edit" class="nav-link">Загрузить из файла</a></li>
+            <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Настройки бота</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Пользователи</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Выход</a></li>
+        </ul>
+    </header>
+</div><hr>
+
+<main>
+    <h2>Настройки бота</h2>
+
+    <form class="form-control-sm" th:action="@{/bot/updateBotSetting}" th:method="post" th:object="${botSetting}">
+        <input class="form-control" type="hidden" id="id" name="id"
+               th:value="${botSetting.id}"/><br>
+        <label for="botName" class="form-label"><b>Имя бота</b></label>
+        <input class="form-control" type="text" id="botName" name="botName"
+               th:value="${botSetting.botName}"/><br>
+        <label for="tokenBot" class="form-label"><b>Токен</b></label>
+        <input class="form-control" type="text" id="tokenBot" name="tokenBot"
+               th:value="${botSetting.tokenBot}"/><br>
+        <input type="hidden" id="activeBot1" name="activeBot" th:value="${botSetting.activeBot}"/>
+        <button class="btn btn-primary d-inline-flex align-items-center" type="submit">Сохранить
+            настройки
+        </button>
+    </form><br>
+    <form class="form-control-sm" th:action="@{/bot/isActive}" th:method="post" th:object="${botSetting}">
+        <input type="hidden" id="id" name="id" th:value="${botSetting.id}"/>
+        <input type="radio" id="activeBot" name="activeBot" value="true" th:checked="${botSetting.activeBot}"/>
+        <label for="activeBot" class="form-label"><b>Активен</b></label><br><br>
+        <input type="radio" id="!activeBot" name="activeBot" value="false" th:checked="${!botSetting.activeBot}"/>
+        <label for="!activeBot" class="form-label"><b>Не активен</b></label><br><br>
+        <button class="btn btn-primary d-inline-flex align-items-center" type="submit">Сохранить</button>
+    </form>
+
+
+</main>
+
+</body>
+</html>

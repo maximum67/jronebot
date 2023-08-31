@@ -85,4 +85,9 @@ public class Turbocharger {
 
     @Column(name="serviceKits")
     private String serviceKits;
+
+    public String toString(){
+        return jroneNo+"\n"+turboMaker+"\n"+turboModel+"\n"+turboOeNo+"\n"+vehicleOeNo+
+                "\n"+brand+"\n"+makerModel+"\n"+engine+"\n"+year+"\n";
+    }
 }

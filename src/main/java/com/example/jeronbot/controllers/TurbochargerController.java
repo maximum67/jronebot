@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 
@@ -55,5 +56,16 @@ public class TurbochargerController {
     public String deleteTurbocharger(@PathVariable("id") Long id){
         turbochargerService.deleteTurbocharger(id);
         return "redirect:/turbocharger/list";
+    }
+    @PostMapping("/search")
+    public String searchTurbocharger(@ModelAttribute ("turboOeNo") String turboOeNo,
+                                     RedirectAttributes redirectAttributes){
+        redirectAttributes.addFlashAttribute("turbochargerList",turbochargerService.getTurbochargerByOeNo(turboOeNo));
+        return "redirect:/turbocharger/search";
+    }
+    @GetMapping("/search")
+    public String search(Model model){
+        model.addAttribute("title", "search");
+        return "searchTurbocharger";
     }
 }

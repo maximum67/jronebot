@@ -1,0 +1,77 @@
+package com.example.jeronbot.services;
+
+import com.example.jeronbot.models.BotSetting;
+import com.example.jeronbot.repositories.BotSettingRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.generics.BotSession;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class BotSettingService implements ApplicationRunner {
+
+    private final BotSettingRepository botSettingRepository;
+    private BotSession botSession;
+
+    public List<BotSetting> list(){ return botSettingRepository.findAll();}
+
+    public void updateBotSetting(BotSetting botSetting){ botSettingRepository.save(botSetting);}
+
+    public void updateBotSettingById(BotSetting botSetting, Long id){
+        BotSetting botSetting1 = botSettingRepository.getReferenceById(id);
+        botSetting1.setTokenBot(botSetting.getTokenBot());
+        botSetting1.setBotName(botSetting.getBotName());
+        botSetting1.setActiveBot(botSetting.isActiveBot());
+        botSettingRepository.save(botSetting1);
+    }
+
+    public void updateBotActive(Long id, Boolean active) {
+        BotSetting botSetting = botSettingRepository.getReferenceById(id);
+        botSetting.setActiveBot(active);
+        botSettingRepository.save(botSetting);
+        if (active) {
+          runBot(botSetting);
+        }else{
+           stopBot();
+        }
+    }
+    public void deleteBotById(Long id){
+            botSettingRepository.deleteById(id);
+        }
+
+    public BotSetting getBotSettingById(Long id){
+        List<BotSetting> list = botSettingRepository.findAll();
+        for (BotSetting botSetting: list){
+            if (botSetting.getId()==id) return botSetting;
+        }
+        return  null;
+    }
+
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        for (BotSetting bot : new BotSettingService(botSettingRepository).list()) {
+            if (bot.isActiveBot()) {
+               runBot(bot);
+            }
+        }
+    }
+
+    public void runBot(BotSetting botSetting){
+        try {
+            TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
+            botSession = botsApi.registerBot(new JroneTelegramBot(botSetting));
+        } catch (TelegramApiException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void stopBot(){ botSession.stop(); }
+}
