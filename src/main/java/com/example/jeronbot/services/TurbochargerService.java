@@ -4,6 +4,8 @@ import com.example.jeronbot.models.Turbocharger;
 import com.example.jeronbot.repositories.TurbochargerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,7 +18,6 @@ import java.util.Set;
 public class TurbochargerService {
 
     private final TurbochargerRepository turbochargerRepository;
-
 
     public List<Turbocharger> list() {
         if (turbochargerRepository.findAll().isEmpty()){

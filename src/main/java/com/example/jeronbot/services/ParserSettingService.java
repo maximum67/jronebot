@@ -3,18 +3,11 @@ package com.example.jeronbot.services;
 import com.example.jeronbot.models.ParserSetting;
 import com.example.jeronbot.models.Turbocharger;
 import com.example.jeronbot.repositories.ParserSettingRepository;
-import com.example.jeronbot.storage.StorageProperties;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-
-import javax.lang.model.element.Element;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.*;
 
 @Service
@@ -173,9 +166,7 @@ public class ParserSettingService {
     }
 
     public File getFile(){
-
-        StorageProperties storageProperties = new StorageProperties();
-        String str = storageProperties.getLocation();
+        String str = "";
         File file = new File(str);
         File[] files = file.listFiles();
         if (files!=null) {

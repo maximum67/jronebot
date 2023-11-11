@@ -2,32 +2,22 @@ package com.example.jeronbot.services;
 
 import com.example.jeronbot.models.BotSetting;
 import com.example.jeronbot.models.Turbocharger;
-import com.example.jeronbot.repositories.BotSettingRepository;
-import com.example.jeronbot.repositories.TurbochargerRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-@Controller
-@RequiredArgsConstructor
+
 public class JroneTelegramBot extends TelegramLongPollingBot {
 
-    private BotSetting botSetting;
+    private final BotSetting botSetting;
+
     private TurbochargerService turbochargerService;
 
     public JroneTelegramBot(BotSetting botSetting) {
@@ -36,6 +26,7 @@ public class JroneTelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+
         SendMessage message = new SendMessage();
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         message.setReplyMarkup(replyKeyboardMarkup);
@@ -104,7 +95,8 @@ public class JroneTelegramBot extends TelegramLongPollingBot {
                         str += "\n";
                     }
                     message.setText(str);
-//                }else {
+                }
+//                else {
 //                    message.setText("Не корректный номер");
 //                }
                     try {
@@ -113,7 +105,7 @@ public class JroneTelegramBot extends TelegramLongPollingBot {
                         e.printStackTrace();
                     }
                 }
-            }
+//            }
         }else if (update.hasCallbackQuery()) {
             String callData = update.getCallbackQuery().getData();
             if (callData.equals("По номеру производителя турбин")) {
