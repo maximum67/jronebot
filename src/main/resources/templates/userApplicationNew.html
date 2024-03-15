@@ -1,0 +1,66 @@
+<!doctype html>
+
+<html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title th:text="${title}">title</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="container">
+    <header class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Главная</a></li>
+            <li class="nav-item"><a href="/turbocharger/list" class="nav-link">Список турбин</a></li>
+            <li class="nav-item"><a href="/turbocharger/search" class="nav-link">Поиск</a></li>
+            <li class="nav-item"><a href="/turbocharger/new" class="nav-link">Добавить новую</a></li>
+            <li class="nav-item"><a href="/parserSetting/edit" class="nav-link">Загрузить из файла</a></li>
+            <li class="nav-item"><a href="/bot/botSetting" class="nav-link">Настройки бота</a></li>
+            <li class="nav-item"><a href="/telegramUser/list" class="nav-link">Статистика</a></li>
+            <li class="nav-item" th:hidden="${!isAdmin}">
+                <a href="/userApplication/list" class="nav-link">Пользователи</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="javascript: document.logoutForm.submit()">Выйти</a>
+                <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                    <input hidden type="submit" value="Выход"/>
+                </form></li>
+        </ul>
+    </header>
+</div><hr>
+
+<div class="row">
+<!--    <div class="col"></div>-->
+    <br><br>
+    <div class="col-sm-6">
+        <form class="form-signin" th:action="@{/auth/registrationUser}" method="post" >
+            <h1 class="h3 mb-3 fw-normal"><b>Зарегистрировать нового пользователя</b></h1>
+
+            <div class="form-floating">
+                <input type="text" class="form-control" name="name" id="floatingInput"
+                       autocomplete="new-username" placeholder="Username">
+                <label for="floatingInput">Username</label>
+            </div>
+            <br>
+            <div class="form-floating">
+                <input type="password" class="form-control" name="password" id="floatingPassword"
+                       autocomplete="new-password" placeholder="Password">
+                <label for="floatingPassword">Password</label>
+            </div>
+            <br><br>
+            <button class="w-100 btn btn-lg btn-secondary" type="submit">Зарегистрировать</button>
+        </form>
+    </div>
+    <div class="col"></div>
+</div>
+<br><br>
+<br><br>
+<h4 th:text="${errorMessage}? '':'Пользователь с таким именем уже существует'" style=color:red >Ошибка</h4>
+
+
+</body>
+</html>

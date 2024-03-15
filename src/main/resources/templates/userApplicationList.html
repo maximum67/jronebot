@@ -15,14 +15,14 @@
     <header class="d-flex justify-content-center py-3">
         <ul class="nav nav-pills">
             <li class="nav-item"><a href="/home" class="nav-link" >Главная</a></li>
-            <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Список турбин</a></li>
+            <li class="nav-item"><a href="/turbocharger/list" class="nav-link">Список турбин</a></li>
             <li class="nav-item"><a href="/turbocharger/search" class="nav-link">Поиск</a></li>
             <li class="nav-item"><a href="/turbocharger/new" class="nav-link">Добавить новую</a></li>
             <li class="nav-item"><a href="/parserSetting/edit" class="nav-link">Загрузить из файла</a></li>
             <li class="nav-item"><a href="/bot/botSetting" class="nav-link">Настройки бота</a></li>
             <li class="nav-item"><a href="/telegramUser/list" class="nav-link">Статистика</a></li>
             <li class="nav-item" th:hidden="${!isAdmin}">
-                <a href="/userApplication/list" class="nav-link">Пользователи</a>
+                <a href="/userApplication/list" class="nav-link active">Пользователи</a>
             </li>
             <li class="nav-item"><a class="nav-link" href="javascript: document.logoutForm.submit()">Выйти</a>
                 <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
@@ -31,40 +31,31 @@
         </ul>
     </header>
 </div><hr>
-<h2>Список турбин</h2>
+<h2>Список пользователей</h2>
 <div class="table-responsive">
     <table class="table table-striped table-sm" id="tableParam">
         <thead>
         <tr>
             <th scope="col">id</th>
-            <th scope="col">Редактирование</th>
-            <th scope="col">Jrone NO</th>
-            <th scope="col">Turbo Maker</th>
-            <th scope="col">Turbo Model</th>
-            <th scope="col">Turbo OE NO</th>
-            <th scope="col">Vehicle OE NO</th>
-            <th scope="col">Brand</th>
-            <th scope="col">Maker Model</th>
-            <th scope="col">Engine</th>
-            <th scope="col">Year</th>
+            <th scope="col">Имя пользователя</th>
+            <th scope="col">Роль</th>
+            <th scope="col">Редактировать</th>
         </tr>
         </thead><hr>
         <tbody>
-        <tr th:each="turbocharger:${turbochargerList}">
-            <td th:text="${turbocharger.id}">id</td>
-            <td><a th:href="'/turbocharger/edit/'+${turbocharger.id}">Редактировать</a></td>
-            <td th:text="${turbocharger.jroneNo}">id</td>
-            <td th:text="${turbocharger.turboMaker}">id</td>
-            <td th:text="${turbocharger.turboModel}">id</td>
-            <td th:text="${turbocharger.turboOeNo}">id</td>
-            <td th:text="${turbocharger.vehicleOeNo}">id</td>
-            <td th:text="${turbocharger.brand}">id</td>
-            <td th:text="${turbocharger.makerModel}">id</td>
-            <td th:text="${turbocharger.engine}">id</td>
-            <td th:text="${turbocharger.year}">id</td>
+        <tr th:each="user:${userList}">
+            <td th:text="${user.id}">id</td>
+            <td th:text="${user.name}">name</td>
+            <td th:text="${user.roles}">role</td>
+            <td><a th:href="'/userApplication/edit/'+${user.id}">Редактировать</a></td>
         </tr>
         </tbody>
     </table>
 </div>
+<hr>
+<br>
+<form class="form-signin" th:action="@{/auth/registrationUser}" >
+    <button class="w-auto btn btn-lg btn-secondary" type="submit">Создать нового пользователя</button>
+</form>
 </body>
 </html>

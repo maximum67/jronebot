@@ -80,13 +80,15 @@ public class TurbochargerService {
 
 
     public List<Turbocharger> getTurbochargerByOeNo(String turboOeNo) {
-        List<Turbocharger> turbochargerList = turbochargerRepository.findAll();
-        List<Turbocharger> list = new ArrayList<>();
-        for (Turbocharger turbocharger : turbochargerList) {
-            if (turbocharger.getTurboOeNo().startsWith(turboOeNo)) {
-                list.add(turbocharger);
-            }
-        }
+//        List<Turbocharger> turbochargerList = turbochargerRepository.findAll();
+//        List<Turbocharger> list = new ArrayList<>();
+//        for (Turbocharger turbocharger : turbochargerList) {
+//            if (turbocharger.getTurboOeNo().startsWith(turboOeNo)) {
+//                list.add(turbocharger);
+//            }
+//        }
+        List<Turbocharger> list = turbochargerRepository.findAllByTurboOeNoContainingOrVehicleOeNoContaining(turboOeNo,turboOeNo);
+        if (list.size()>=6) list.clear();
         return list;
     }
 }

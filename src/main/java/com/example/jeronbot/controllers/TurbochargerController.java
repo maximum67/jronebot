@@ -3,6 +3,7 @@ package com.example.jeronbot.controllers;
 
 import com.example.jeronbot.models.Turbocharger;
 import com.example.jeronbot.services.TurbochargerService;
+import com.example.jeronbot.services.UserApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +19,13 @@ import java.io.IOException;
 public class TurbochargerController {
 
     private final TurbochargerService turbochargerService;
+    private final UserApplicationService userApplicationService;
 
     @GetMapping("/list")
     public String getTurbochargerList(Model model){
         model.addAttribute("title", "turbochargerList");
         model.addAttribute("turbochargerList", turbochargerService.list());
+        model.addAttribute("isAdmin",  userApplicationService.getUserByPrincipal().isAdmin());
         return "turbochargerList";
     }
     @PostMapping("/new")
@@ -33,11 +36,15 @@ public class TurbochargerController {
     @GetMapping("/new")
     public String newTurbocharger(Model model) {
         model.addAttribute(new Turbocharger());
+        model.addAttribute("title", "turbochargerNew");
+        model.addAttribute("isAdmin",  userApplicationService.getUserByPrincipal().isAdmin());
         return "turbochargerNew";
     }
     @GetMapping("/update")
     public String update(Model model){
         model.addAttribute("title", "turbochargerUpdate");
+        model.addAttribute("title", "turbochargerUpdate");
+        model.addAttribute("isAdmin",  userApplicationService.getUserByPrincipal().isAdmin());
         return "turbochargerUpdate";
     }
     @PostMapping("/update/{id}")
@@ -50,6 +57,7 @@ public class TurbochargerController {
     public String getTurbochargerEdit(@PathVariable("turbocharger") Turbocharger turbocharger, Model model){
         model.addAttribute("title", "turbochargerEdit");
         model.addAttribute("turbocharger", turbocharger);
+        model.addAttribute("isAdmin",  userApplicationService.getUserByPrincipal().isAdmin());
         return "turbochargerEdit";
     }
     @PostMapping("/delete/{id}")
@@ -66,6 +74,7 @@ public class TurbochargerController {
     @GetMapping("/search")
     public String search(Model model){
         model.addAttribute("title", "search");
+        model.addAttribute("isAdmin",  userApplicationService.getUserByPrincipal().isAdmin());
         return "searchTurbocharger";
     }
 }
