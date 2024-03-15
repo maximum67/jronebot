@@ -3,6 +3,7 @@ package com.example.jeronbot.controllers;
 import com.example.jeronbot.models.BotSetting;
 import com.example.jeronbot.repositories.BotSettingRepository;
 import com.example.jeronbot.services.BotSettingService;
+import com.example.jeronbot.services.UserApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class BotAdministrationController {
 
     private final BotSettingService botSettingService;
+    private final UserApplicationService userApplicationService;
 
     @GetMapping("/botSetting")
     public String getBotSetting(Model model, @ModelAttribute("botSetting") BotSetting botSetting){
@@ -26,6 +28,7 @@ public class BotAdministrationController {
 //            System.out.println("Old bot");
         }
         model.addAttribute("title", "botSetting");
+        model.addAttribute("isAdmin",  userApplicationService.getUserByPrincipal().isAdmin());
         return "botSetting";
     }
     @PostMapping("/updateBotSetting")
@@ -37,6 +40,7 @@ public class BotAdministrationController {
         }
         model.addAttribute("botSetting", botSetting);
         model.addAttribute("title", "botSetting");
+        model.addAttribute("isAdmin",  userApplicationService.getUserByPrincipal().isAdmin());
         return "redirect:/bot/botSetting";
     }
 
@@ -46,6 +50,7 @@ public class BotAdministrationController {
         botSettingService.updateBotActive(botSetting.getId(), active);
         model.addAttribute("botSetting", botSetting);
         model.addAttribute("title", "botSetting");
+        model.addAttribute("isAdmin",  userApplicationService.getUserByPrincipal().isAdmin());
         return "redirect:/bot/botSetting";
     }
 

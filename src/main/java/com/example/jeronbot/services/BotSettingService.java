@@ -18,6 +18,8 @@ import java.util.List;
 public class BotSettingService implements ApplicationRunner {
 
     private final BotSettingRepository botSettingRepository;
+    private final TurbochargerService turbochargerService;
+    private final TelegramUserService telegramUserService;
     private BotSession botSession;
 
     public List<BotSetting> list(){ return botSettingRepository.findAll();}
@@ -37,7 +39,7 @@ public class BotSettingService implements ApplicationRunner {
         botSetting.setActiveBot(active);
         botSettingRepository.save(botSetting);
         if (active) {
-          runBot(botSetting);
+          runBot(botSetting, turbochargerService, telegramUserService);
         }else{
            stopBot();
         }
@@ -57,21 +59,22 @@ public class BotSettingService implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        for (BotSetting bot : new BotSettingService(botSettingRepository).list()) {
+        for (BotSetting bot : new BotSettingService(botSettingRepository, turbochargerService, telegramUserService).list()) {
             if (bot.isActiveBot()) {
-               runBot(bot);
+               runBot(bot, turbochargerService,telegramUserService);
             }
         }
     }
 
-    public void runBot(BotSetting botSetting){
+    public void runBot(BotSetting botSetting, TurbochargerService turbochargerService, TelegramUserService telegramUserService){
         try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-            botSession = botsApi.registerBot(new JroneTelegramBot(botSetting));
+            botSession = botsApi.registerBot(new JroneTelegramBot(botSetting, turbochargerService,telegramUserService));
         } catch (TelegramApiException ex) {
             ex.printStackTrace();
         }
     }
 
-    public void stopBot(){ botSession.stop(); }
+    public void stopBot(){
+        if (botSession!=null) botSession.stop(); }
 }

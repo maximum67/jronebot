@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
-<title>index</title>
+    <title th:text="${title}">title</title>
 
     <link href="/css/bootstrap.min.css" rel="stylesheet">
 
@@ -21,14 +21,23 @@
             <li class="nav-item"><a href="/turbocharger/new" class="nav-link">Добавить новую</a></li>
             <li class="nav-item"><a href="/parserSetting/edit" class="nav-link">Загрузить из файла</a></li>
             <li class="nav-item"><a href="/bot/botSetting" class="nav-link">Настройки бота</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Пользователи</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Выход</a></li>
+            <li class="nav-item"><a href="/telegramUser/list" class="nav-link">Статистика</a></li>
+            <li class="nav-item" th:hidden="${!isAdmin}">
+                <a href="/userApplication/list" class="nav-link">Пользователи</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="javascript: document.logoutForm.submit()">Выйти</a>
+                <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                    <input hidden type="submit" value="Выход"/>
+                </form></li>
         </ul>
     </header>
 </div><hr>
 
 <h2>Главная страница</h2>
-
+<br>
+<p>Сервис администрирования телеграм-бота по подбору запчастей JRONE.</p>
+<p>В чате с ботом вводится каталожный номер турбины производителя турбин,</p>
+<p>либо каталожный номер турбины производителя автомобиля.</p>
 
 </body>
 </html>

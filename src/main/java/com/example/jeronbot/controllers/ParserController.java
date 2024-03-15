@@ -5,6 +5,7 @@ import com.example.jeronbot.services.ParserSettingService;
 
 import com.example.jeronbot.services.StorageService;
 import com.example.jeronbot.services.TurbochargerService;
+import com.example.jeronbot.services.UserApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ public class ParserController {
     private final ParserSettingService parserSettingService;
     private final StorageService storageService;
     private  final TurbochargerService turbochargerService;
+    private final UserApplicationService userApplicationService;
 
     @GetMapping("/edit")
     public String getParerSetting(Model model){
@@ -31,6 +33,8 @@ public class ParserController {
                                     "serveFile", path.getFileName().toString()).build().toUri().toString())
                     .collect(Collectors.toList()));
        model.addAttribute("fileName", parserSettingService.getFile().getName());
+        model.addAttribute("title", "parserSetting");
+        model.addAttribute("isAdmin",  userApplicationService.getUserByPrincipal().isAdmin());
             return "parserSettingEdit";
     }
 

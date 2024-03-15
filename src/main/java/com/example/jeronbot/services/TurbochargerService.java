@@ -4,8 +4,6 @@ import com.example.jeronbot.models.Turbocharger;
 import com.example.jeronbot.repositories.TurbochargerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +16,7 @@ import java.util.Set;
 public class TurbochargerService {
 
     private final TurbochargerRepository turbochargerRepository;
+
 
     public List<Turbocharger> list() {
         if (turbochargerRepository.findAll().isEmpty()){
@@ -81,13 +80,15 @@ public class TurbochargerService {
 
 
     public List<Turbocharger> getTurbochargerByOeNo(String turboOeNo) {
-        List<Turbocharger> turbochargerList = turbochargerRepository.findAll();
-        List<Turbocharger> list = new ArrayList<>();
-        for (Turbocharger turbocharger : turbochargerList) {
-            if (turbocharger.getTurboOeNo().startsWith(turboOeNo)) {
-                list.add(turbocharger);
-            }
-        }
+//        List<Turbocharger> turbochargerList = turbochargerRepository.findAll();
+//        List<Turbocharger> list = new ArrayList<>();
+//        for (Turbocharger turbocharger : turbochargerList) {
+//            if (turbocharger.getTurboOeNo().startsWith(turboOeNo)) {
+//                list.add(turbocharger);
+//            }
+//        }
+        List<Turbocharger> list = turbochargerRepository.findAllByTurboOeNoContainingOrVehicleOeNoContaining(turboOeNo,turboOeNo);
+        if (list.size()>=6) list.clear();
         return list;
     }
 }
