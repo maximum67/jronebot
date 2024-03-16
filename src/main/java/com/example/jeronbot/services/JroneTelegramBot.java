@@ -5,11 +5,6 @@ import com.example.jeronbot.models.TelegramUser;
 import com.example.jeronbot.models.Turbocharger;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.poi.ss.formula.functions.T;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
-import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -18,7 +13,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,80 +36,28 @@ public class JroneTelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         SendMessage message = new SendMessage();
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         message.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setSelective(false);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(false);
-//        replyKeyboardMarkup.setIsPersistent(true);
-
         List<KeyboardRow> keyboardRows = new ArrayList<>();
         KeyboardRow firstKeyboardRow = new KeyboardRow();
         firstKeyboardRow.add("/help");
-//        KeyboardRow secondKeyboardRow = new KeyboardRow();
-//        secondKeyboardRow.add("По номеру производителя авто");
         keyboardRows.add(firstKeyboardRow);
-//        keyboardRows.add(secondKeyboardRow);
-//
         replyKeyboardMarkup.setKeyboard(keyboardRows);
 
-// --------------------------------------------------------------------------------------------
-
-//            message.setChatId(update.getMessage().getChatId().toString());
-//            message.setParseMode(ParseMode.HTML);   //включаем форматирование в данном случае через HTML
-//            message.setText(dateFormat.format(Long.valueOf(update.getMessage().getDate()+"000")) + "\n"+
-//                    update.getMessage().getFrom().getFirstName() + "\n"+
-//                    update.getMessage().getFrom().getLastName() + "\n" +
-//                    "ID сообщения: " + update.getMessage().getMessageId() + "\n" +
-//                    "ID пользователя: "+ update.getMessage().getFrom().getId() + "\n" +
-//                    "Это бот: " + update.getMessage().getFrom().getIsBot() + "\n" +
-//                    "Сообщение: " +update.getMessage().getText());
-//            try {
-//                execute(message); // Отправляем сообщение
-//            } catch (TelegramApiException e) {
-//                e.printStackTrace();
-//            }
-
-//-----------------------------------------------------------------------------------------------
-
-
-        if (update.hasMessage()) {
+        if (update.hasMessage()&&update.getMessage().hasText()) {
             if (update.getMessage().getText().equalsIgnoreCase("/help")) {
                 message.setChatId(update.getMessage().getChatId().toString());
                 message.setParseMode(ParseMode.HTML);   //включаем форматирование в данном случае через HTML
                 message.setText("<b>Подбор запчастей JRONE</b>"+"\n"+"\n"+
-                        "<i>Чтобы подобрать запчасти JRONE для турбокомпрессора введите номер производителя турбокомпрессора</i>" +
+                        "<i>Введите номер производителя турбокомпрессора</i>" +
                         "<i> или номер производителя автомобиля</i>"+"\n"+
                         "\n"+"<a href = 'https://turbiny-smolensk.ru/'>МодаАвто</a>");
-                try {
-                    execute(message); // Отправляем сообщение
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
-                }
-            }else if (update.getMessage().getText().equalsIgnoreCase("/start")) {
-                message.setChatId(update.getMessage().getChatId().toString());
-                message.setParseMode(ParseMode.HTML);
-                message.setText("<i>Подбор запчастей JRONE</i>");
-//                InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
-//
-//                List <List<InlineKeyboardButton>> buttons = new ArrayList<>();
-//                List<InlineKeyboardButton> buttons1 = new ArrayList<>();
-//
-//                InlineKeyboardButton button = new InlineKeyboardButton();
-//                InlineKeyboardButton button1 = new InlineKeyboardButton();
-//                button.setText("Номер производителя турбин");
-//                button.setCallbackData("По номеру производителя турбин");
-//                button1.setText("Номер производителя авто");
-//                button1.setCallbackData("По номеру производителя авто");
-//                buttons1.add(button);
-//                buttons1.add(button1);
-//                buttons.add(buttons1);
-//
-//                markup.setKeyboard(buttons);
-//                message.setReplyMarkup(markup);
                 try {
                     execute(message); // Отправляем сообщение
                 } catch (TelegramApiException e) {
@@ -126,8 +68,8 @@ public class JroneTelegramBot extends TelegramLongPollingBot {
                 StringBuilder str = new StringBuilder();
                 String stringComment = "";
 
-                List<Turbocharger> list = turbochargerService.getTurbochargerByOeNo(update.getMessage().getText());
-
+                List<Turbocharger> list = turbochargerService.getTurbochargerByOeNo(update.getMessage().getText()
+                                                              .replaceAll("[^[0-9A-Za-z/]]",""));
                 if (!list.isEmpty()) {
                     for (Turbocharger turbocharger : list) {
                         str.append("Производитель  ").append(turbocharger.getTurboMaker());
@@ -186,50 +128,7 @@ public class JroneTelegramBot extends TelegramLongPollingBot {
                         e.printStackTrace();
                     }
             }
-        }else if (update.hasCallbackQuery()) {
-            String callData = update.getCallbackQuery().getData();
-            if (callData.equals("По номеру производителя турбин")) {
-                message.setChatId(update.getCallbackQuery().getMessage().getChatId());
-                message.setText("Введите номер производителя турбин");
-                try {
-                    execute(message); // Отправляем сообщение
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
-                }
-            }else if (callData.equals("По номеру производителя авто")) {
-                message.setChatId(update.getCallbackQuery().getMessage().getChatId());
-                message.setText("Введите номер производителя авто");
-                try {
-                    execute(message); // Отправляем сообщение
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                message.setChatId(update.getCallbackQuery().getMessage().getChatId());
-                message.setText("Воспользуйтесь помощью");
-                try {
-                    execute(message); // Отправляем сообщение
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
-                }
-            }
         }
-    }
-
-//    public synchronized void answerCallbackQuery(String callbackId,String message){
-//        AnswerCallbackQuery answer = new AnswerCallbackQuery();
-//        answer.setCallbackQueryId(callbackId);
-//        answer.setText(message);
-//        answer.setShowAlert(true);
-//        try{
-//            answerCallbackQuery(answer);
-//        }catch(TelegramApiException e){
-//            e.printStackTrace();
-//        }
-//    }
-
-    private void setInline() {
-
     }
 
     @Override

@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-// https://www.callicoder.com/spring-boot-file-upload-download-jpa-hibernate-mysql-database-example/
-
 @Entity
 @Table(name="parsersetting")
 @Getter
