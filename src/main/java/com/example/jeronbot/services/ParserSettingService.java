@@ -50,14 +50,12 @@ public class ParserSettingService {
         parsingMap.put("NozzleRingAssy", parserSetting.getNozzleRingAssy());
         parsingMap.put("ServiceKits", parserSetting.getServiceKits());
 
-
         List<Turbocharger> turbochargerList = new ArrayList<>();
             ParsingFile parsingFile = new ParsingFile();
             Map<Integer, List<Object>> map = parsingFile.read(getFile().toString());
         for (int i = 0; i < map.size(); i++) {
             Turbocharger turbocharger = new Turbocharger();
              for ( Map.Entry<String, Long> el : parsingMap.entrySet()){
-//                System.out.println( el.getKey()+" - "+map.get(i).get(Math.toIntExact(el.getValue())) + " !!! ");
                 switch (el.getKey()){
                     case "JroneNo": turbocharger.setJroneNo((String) map.get(i).get(Math.toIntExact(el.getValue())));
                         break;
@@ -65,9 +63,11 @@ public class ParserSettingService {
                         break;
                     case "TurboModel": turbocharger.setTurboModel((String) map.get(i).get(Math.toIntExact(el.getValue())));
                         break;
-                    case "TurboOeNo": turbocharger.setTurboOeNo((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                    case "TurboOeNo": turbocharger.setTurboOeNo(((String) map.get(i).get(Math.toIntExact(el.getValue())))
+                                      .replaceAll("[^[0-9A-Za-z/]]",""));
                         break;
-                    case "VehicleOeNo": turbocharger.setVehicleOeNo((String) map.get(i).get(Math.toIntExact(el.getValue())));
+                    case "VehicleOeNo": turbocharger.setVehicleOeNo(((String) map.get(i).get(Math.toIntExact(el.getValue())))
+                                        .replaceAll("[^[0-9A-Za-z/]]",""));
                         break;
                     case "Brand": turbocharger.setBrand((String) map.get(i).get(Math.toIntExact(el.getValue())));
                         break;
@@ -105,15 +105,8 @@ public class ParserSettingService {
                         break;
                 }
             }
-
-//            System.out.println("_____________________________________");
-//            System.out.println(turbocharger.getJroneNo());
-//            System.out.println("_____________________________________");
             turbochargerList.add(turbocharger);
         }
-//        for (Turbocharger t: turbochargerList) {
-//            System.out.println(t.getJroneNo());
-//        }
         return turbochargerList;
     }
 
@@ -130,7 +123,7 @@ public class ParserSettingService {
             parserSetting.setTurboMaker(updateparserSetting.getTurboMaker());
             parserSetting.setTurboModel(updateparserSetting.getTurboModel());
             parserSetting.setTurboOeNo(updateparserSetting.getTurboOeNo());
-            parserSetting.setVehicleOeNo(updateparserSetting.getVehicleOeNo());
+            parserSetting.setVehicleOeNo((updateparserSetting.getVehicleOeNo()));
             parserSetting.setBrand(updateparserSetting.getBrand());
             parserSetting.setMakerModel(updateparserSetting.getMakerModel());
             parserSetting.setEngine(updateparserSetting.getEngine());
@@ -153,17 +146,15 @@ public class ParserSettingService {
         }
     }
 
-
-
     public ParserSetting getSetting(){
         List<ParserSetting> parserSettingList = parserSettingRepository.findAll();;
         if (parserSettingList.isEmpty()){
            return new ParserSetting();
         }else{
-
            return parserSettingList.get(0);
         }
     }
+
     public void deleteParserSetting(Long id){
         parserSettingRepository.deleteById(id);
     }
@@ -173,7 +164,6 @@ public class ParserSettingService {
     }
 
     public File getFile(){
-
         StorageProperties storageProperties = new StorageProperties();
         String str = storageProperties.getLocation();
         File file = new File(str);

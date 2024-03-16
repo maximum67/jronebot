@@ -31,15 +31,12 @@ public class SecurityConfig {
                 .anyRequest()
                 .authenticated()
                 .and()
-//                .httpBasic()
                 .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/")
                 .permitAll()
-
                 .and()
                 .logout()
-//                .logoutUrl("/logout")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
@@ -52,24 +49,6 @@ public class SecurityConfig {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
-
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user1 =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("password")
-//                        .roles("USER")
-//                        .build();
-//        UserDetails user2 =
-//                User.withDefaultPasswordEncoder()
-//                        .username("userRest")
-//                        .password("Ght8&654rTk!fbv%Gfd")
-//                        .roles("USER")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user1,user2);
-//    }
 
     @Bean
     protected PasswordEncoder passwordEncoder() {

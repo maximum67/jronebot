@@ -29,7 +29,6 @@ public class UserApplicationService {
 
 
     public boolean creatAdminApplication(UserApplication userApplication) {
-
         if (userApplicationRepository.findAll().isEmpty()) {
             userApplication.getRoles().add(Role.ROLE_ADMIN);
             userApplication.setPassword(passwordEncoder.encode(userApplication.getPassword()));
@@ -41,9 +40,7 @@ public class UserApplicationService {
     }
 
     public boolean creatUserApplication(UserApplication userApplication) {
-
         String userName = userApplication.getName();
-
             if (userApplicationRepository.findByName(userName) != null) {
                 return false;
             } else {
@@ -53,7 +50,6 @@ public class UserApplicationService {
                 return true;
             }
     }
-
 
     public List<UserApplication> listUserApplication(){
         return userApplicationRepository.findAll();

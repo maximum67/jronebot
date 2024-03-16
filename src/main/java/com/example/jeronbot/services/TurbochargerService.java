@@ -3,20 +3,15 @@ package com.example.jeronbot.services;
 import com.example.jeronbot.models.Turbocharger;
 import com.example.jeronbot.repositories.TurbochargerRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 @Service
 @RequiredArgsConstructor
 public class TurbochargerService {
 
     private final TurbochargerRepository turbochargerRepository;
-
 
     public List<Turbocharger> list() {
         if (turbochargerRepository.findAll().isEmpty()){
@@ -43,6 +38,8 @@ public class TurbochargerService {
     }
 
     public void updateTurbocharger(Turbocharger turbocharger){
+        turbocharger.setTurboOeNo((turbocharger.getTurboOeNo()).replaceAll("[^[0-9A-Za-z/]]",""));
+        turbocharger.setVehicleOeNo((turbocharger.getVehicleOeNo()).replaceAll("[^[0-9A-Za-z/]]",""));
         turbochargerRepository.save(turbocharger);
     }
 
@@ -51,8 +48,8 @@ public class TurbochargerService {
        turbocharger.setJroneNo(updateTurbocharger.getJroneNo());
        turbocharger.setTurboMaker(updateTurbocharger.getTurboMaker());
        turbocharger.setTurboModel(updateTurbocharger.getTurboModel());
-       turbocharger.setTurboOeNo(updateTurbocharger.getTurboOeNo());
-       turbocharger.setVehicleOeNo(updateTurbocharger.getVehicleOeNo());
+       turbocharger.setTurboOeNo((updateTurbocharger.getTurboOeNo()).replaceAll("[^[0-9A-Za-z/]]",""));
+       turbocharger.setVehicleOeNo((updateTurbocharger.getVehicleOeNo()).replaceAll("[^[0-9A-Za-z/]]",""));
        turbocharger.setBrand(updateTurbocharger.getBrand());
        turbocharger.setMakerModel(updateTurbocharger.getMakerModel());
        turbocharger.setEngine(updateTurbocharger.getEngine());
@@ -71,24 +68,15 @@ public class TurbochargerService {
        turbocharger.setNozzleRingAssy(updateTurbocharger.getNozzleRingAssy());
        turbocharger.setServiceKits(updateTurbocharger.getServiceKits());
        turbochargerRepository.save(turbocharger);
-
     }
 
     public void deleteTurbocharger(Long id){
         turbochargerRepository.deleteById(id);
     }
 
-
     public List<Turbocharger> getTurbochargerByOeNo(String turboOeNo) {
-//        List<Turbocharger> turbochargerList = turbochargerRepository.findAll();
-//        List<Turbocharger> list = new ArrayList<>();
-//        for (Turbocharger turbocharger : turbochargerList) {
-//            if (turbocharger.getTurboOeNo().startsWith(turboOeNo)) {
-//                list.add(turbocharger);
-//            }
-//        }
         List<Turbocharger> list = turbochargerRepository.findAllByTurboOeNoContainingOrVehicleOeNoContaining(turboOeNo,turboOeNo);
-        if (list.size()>=6) list.clear();
+        if (list.size()>=7) list.clear();
         return list;
     }
 }
