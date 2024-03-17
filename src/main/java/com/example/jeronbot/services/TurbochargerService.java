@@ -75,7 +75,8 @@ public class TurbochargerService {
     }
 
     public List<Turbocharger> getTurbochargerByOeNo(String turboOeNo) {
-        List<Turbocharger> list = turbochargerRepository.findAllByTurboOeNoContainingOrVehicleOeNoContaining(turboOeNo,turboOeNo);
+        List<Turbocharger> list = turbochargerRepository
+                                  .findAllByTurboOeNoContainingOrVehicleOeNoContaining(turboOeNo,turboOeNo);
         if (list.size()>=7) list.clear();
         return list;
     }
